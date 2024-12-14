@@ -60,7 +60,7 @@ opposites_dict = {
     "intelligent": "dumb",
     "greedy": "generous",
     "narcissistic": "selfless",
-    "egoistic": "egoless",*
+    "egoistic": "egoless",
     "impulsive": "calm",
     "rational": "irrational",
     "fanatic": "sympathetic",
