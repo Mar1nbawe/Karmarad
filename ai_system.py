@@ -58,7 +58,7 @@ class AI:
         # Customize behavior based on event type
         if event["type"] == "karma_change":
             print(
-                f"{self.name} is aware that {origin_ai.name}'s karma changed by {event['change']}"
+                f"{self.name} is aware that {origin_ai.name}'s karma changed by {event['change']}\n"
             )
 
     def generate_prompt(self):
