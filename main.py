@@ -1,15 +1,17 @@
-import random
+import os
 
-from ai_system import create_ai_with_tags, User
-from event_manager import EventManager
-from tags_utils import get_weight_distribution, generate_unique_tags, gaussian_dist
+from System.ai_system import create_ai_with_tags_relationships
+from System.event_manager import EventManager
+from Funcs.tags_utils import get_weight_distribution, generate_unique_tags
 import requests
+from dotenv import load_dotenv
 
+load_dotenv()
 
 def main():
     # List of AI names to create
-    ai_names = requests.get("https://randommer.io/api/Name?nameType=fullname&quantity=5",
-                                     headers={"X-Api-Key": "adf5de275e40478693c9f886d1248b5a",
+    ai_names = requests.get("https://randommer.io/api/Name?nameType=fullname&quantity=6",
+                                     headers={"X-Api-Key": os.getenv("RAND_API"),
                                               "accept": "*/*"}).json()
     gaussian_dist = get_weight_distribution()
 
@@ -17,7 +19,7 @@ def main():
     event_manager = EventManager()
 
     # Generate AIs with tags
-    ais = create_ai_with_tags(
+    ais = create_ai_with_tags_relationships(
         ai_names,
         lambda dist, num_tags: generate_unique_tags(gaussian_dist, num_tags, existing_tag_sets),
         9,
@@ -31,18 +33,11 @@ def main():
     for ai in ais:
         ai.display_info()
 
-    # Establish relationships for demonstration
-    if len(ais) > 1:
-        ais[0].set_relationship(ais[1], 1)  # AI_1 likes AI_2
-        ais[1].set_relationship(ais[2], -1)  # AI_2 dislikes AI_3
 
-    # Create a user and interact with AIs
-    user = User("User_1")
-    user.interact_with_ai(ais[0], -10)  # User decreases AI_1’s karma
 
-    for ai in ais:
-        print("\n Generated Prompt:")
-        print(ai.generate_prompt())
+    # for ai in ais:
+    #     print("\n Generated Prompt:")
+    #     print(ai.generate_prompt())
 
 if __name__ == "__main__":
     main()
