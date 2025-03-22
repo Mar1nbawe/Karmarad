@@ -3,12 +3,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+from Database.Init import driver
 
 
 tag_list = ["hateful", "dumb", "smart", "kind", "empathetic", "greedy", "generous", "narcissistic", "selfless",
         "egoistic", "egoless", "impulsive", "calm", "rational", "irrational", "fanatic", "sympathetic", "apathetic",
-        "indifferent", "leader", "self-aware", "logical", "silver-tongued", "intelligent", "compliance"]
+        "indifferent", "leader", "self-aware", "logical", "silver-tongued", "intelligent", "compliant"]
 
 # Dictionary with tags and their weights
 weights_dict = {
@@ -36,7 +36,7 @@ weights_dict = {
     "logical": 65,
     "silver-tongued": 75,
     "intelligent": 85,
-    "compliance": 15,
+    "compliant": 15,
     "creative": 90,
     "innovative": 95,
     "pessimistic": -45,
@@ -54,7 +54,12 @@ weights_dict = {
     "decisive": 25,
     "indecisive": -15
 }
+# Use when traits are not on db
+# with driver.session() as session:
+#     for traits in weights_dict:
+#         session.run('CREATE (trait:Trait {name: "' + traits + '", weight: "' + str(weights_dict[traits]) +'"})')
 
+#     print(traits, weights_dict[traits])
 # Dictionary to map each tag to its opposite
 opposites_dict = {
     "hateful": "kind",
@@ -137,21 +142,12 @@ plt.ylabel("Density")
 
 
 def get_tag_from_weight(value):
-    """Map a weight to its closest tag."""
     closest_weight = min(weights, key=lambda x: abs(x - value))
     return tag_list[weights.tolist().index(closest_weight)]
 
 
 def generate_unique_tags(gaussian_dist, number_of_tags=9, existing_tag_sets=None):
-    """
-    Generate a unique set of tags for an AI.
-    Ensures no AI has an identical set of tags to another AI.
 
-    :param gaussian_dist: Gaussian distribution for tag weights.
-    :param number_of_tags: How many tags to generate.
-    :param existing_tag_sets: Set of previously assigned tag sets to avoid duplication.
-    :return: A unique list of tags.
-    """
     if existing_tag_sets is None:
         existing_tag_sets = []
 
@@ -174,9 +170,8 @@ def generate_unique_tags(gaussian_dist, number_of_tags=9, existing_tag_sets=None
 
 plt.show()
 
-
+# Creates Gaussian distribution for weights
 def get_weight_distribution():
-    """Creates Gaussian distribution for weights."""
     mean = np.mean(weights)
     std_dev = np.std(weights)
     return np.random.normal(mean, std_dev, 100000)
