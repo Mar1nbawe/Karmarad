@@ -1,20 +1,22 @@
 import numpy as np
-from Classes.Interpretter_Result import Inter_Result
 
-# Normalize_Action is a function which normalizes inputs based on their actions. We normalize in the range of [0.51, 1]
-# Where 0.51 is the minimum for a positive/negative reaction to be considered
-def Normalize_Action(score):
+# Normalize_Action is a function which normalizes inputs based on their actions. We normalize in the range of [0, 5]
+# Where 0 is the minimum for a positive/negative reaction to be considered
+def Normalize_Action(severity):
 
-    norm_score = (score - 0.51) / (1 - 0.51)
-    return norm_score
+    return severity / 5
 
-
-def Calculate_Karma(score, k):
+# Following formula calculates karma based on the severity of the action and the current karma a character has for another character/user
+def Calculate_Karma(score, severity):
     # M represents Maximum karma one could acquire
-    M = 100
+    M = 40
+    karma_scale = abs(score) / 100
 
-    return M * (np.exp(1) ** (k * Normalize_Action(score) ) - 1) / (np.exp(1) ** k - 1)
+    karma_cap = M + (100 - M) * karma_scale
+    rel_scale = 1 + 9 * karma_scale
+    norm_sev = Normalize_Action(severity)
 
+    formula = round(karma_cap * (np.exp(rel_scale * norm_sev)- 1) / (np.exp(rel_scale) - 1), 2)
 
+    return formula
 
-print(Calculate_Karma(0.85, 8))
