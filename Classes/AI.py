@@ -33,14 +33,6 @@ class AI:
         self.karma += value
         print(f"{self.name}'s karma updated to {self.karma}.")
 
-    def receive_event(self, origin_ai, event):
-        print(f"{self.name} received event from {origin_ai.name}: {event}")
-
-        if event["type"] == "karma_change":
-            print(
-                f"{self.name} is aware that {origin_ai.name}'s karma changed by {event['change']}\n"
-            )
-
     def generate_prompt(self):
 
         relationship_summary = ", ".join(

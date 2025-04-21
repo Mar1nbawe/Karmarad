@@ -22,15 +22,17 @@ def main():
     ais = create_ai_with_tags_relationships(
         ai_names,
         lambda dist, num_tags: generate_unique_tags(gaussian_dist, num_tags, existing_tag_sets),
-        9,
+        5,
     )
 
     for ai in ais:
         ai.event_manager = event_manager
         event_manager.register_ai(ai)
+    event_manager.gossip(event_manager.random_assign(), "killed")
 
     # Display information for each created AI
     for ai in ais:
+
         ai.display_info()
 
 
