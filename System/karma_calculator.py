@@ -8,15 +8,15 @@ def Normalize_Action(severity):
 
 # Following formula calculates karma based on the severity of the action and the current karma a character has for another character/user
 def Calculate_Karma(score, severity):
-    # M represents Maximum karma one could acquire
-    M = 40
-    karma_scale = abs(score) / 100
 
-    karma_cap = M + (100 - M) * karma_scale
-    rel_scale = 1 + 9 * karma_scale
-    norm_sev = Normalize_Action(severity)
+    def Normalize_Action(score):
+        norm_score = (score - 0.51) / (1 - 0.51)
+        return norm_score
 
-    formula = round(karma_cap * (np.exp(rel_scale * norm_sev)- 1) / (np.exp(rel_scale) - 1), 2)
+    def Calculate_Karma(score, k):
+        # M represents Maximum karma one could acquire
+        M = 100
 
-    return formula
+        return M * (np.exp(1) ** (k * Normalize_Action(score)) - 1) / (np.exp(1) ** k - 1)
+
 

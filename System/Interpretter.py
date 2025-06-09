@@ -31,15 +31,7 @@ def interpretPipeline(sentence):
 
 
 label_mapping = {"LABEL_0": "Negative", "LABEL_1": "Neutral", "LABEL_2": "Positive"}
-while True:
 
-    msg = input("Insert Message")
-    a = parse_result_pipeline(msg)
-    print(a.sentiment_response)
-    print(a.name[0])
-    print(a.action)
-    print(a.sentiment_severity[0])
-    # print(Calculate_Karma(a.sentiment_score, 8))
 
 
 # print(a.sentiment_score)
