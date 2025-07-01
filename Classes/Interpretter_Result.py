@@ -1,8 +1,7 @@
 
 class Inter_Result:
-    def __init__(self, name, sentiment_response, sentiment_severity, action):
+    def __init__(self, summarize, sentiment_response):
 
-        self.name = name,
+        self.summarize = summarize,
         self.sentiment_response = sentiment_response,
-        self.sentiment_severity = sentiment_severity,
-        self.action = action
+

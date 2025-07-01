@@ -1,4 +1,4 @@
-from Database.Init import driver
+
 
 class AI:
     def __init__(self, name, tags, event_manager=None):

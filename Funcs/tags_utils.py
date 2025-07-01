@@ -168,7 +168,7 @@ def generate_unique_tags(gaussian_dist, number_of_tags=9, existing_tag_sets=None
     existing_tag_sets.append(candidate_tags)
     return list(candidate_tags)
 
-plt.show()
+# plt.show()
 
 # Creates Gaussian distribution for weights
 def get_weight_distribution():

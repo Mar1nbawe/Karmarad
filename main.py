@@ -1,5 +1,7 @@
 import os
 
+from Classes.AI import AI
+from System.Interpretter import run_interpretter
 from System.ai_system import create_ai_with_tags_relationships
 from System.event_manager import EventManager
 from Funcs.tags_utils import get_weight_distribution, generate_unique_tags
@@ -9,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def main():
-    # List of AI names to create
+    # List of Character names to create
     ai_names = requests.get("https://randommer.io/api/Name?nameType=fullname&quantity=6",
                                      headers={"X-Api-Key": os.getenv("RAND_API"),
                                               "accept": "*/*"}).json()
@@ -18,7 +20,7 @@ def main():
     existing_tag_sets = []
     event_manager = EventManager()
 
-    # Generate AIs with tags
+    # Generate Characters with tags
     ais = create_ai_with_tags_relationships(
         ai_names,
         lambda dist, num_tags: generate_unique_tags(gaussian_dist, num_tags, existing_tag_sets),
@@ -28,18 +30,16 @@ def main():
     for ai in ais:
         ai.event_manager = event_manager
         event_manager.register_ai(ai)
-    event_manager.gossip(event_manager.random_assign(), "killed")
 
-    # Display information for each created AI
+
+    # Display information for each Character
     for ai in ais:
 
         ai.display_info()
 
+    chosen_character = event_manager.random_assign()
+    run_interpretter(character= chosen_character, event_manager=event_manager)
 
-
-    # for ai in ais:
-    #     print("\n Generated Prompt:")
-    #     print(ai.generate_prompt())
 
 if __name__ == "__main__":
     main()

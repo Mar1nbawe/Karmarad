@@ -22,7 +22,7 @@ def attribute_gossip(parsed_json):
 
 
 
-    gossip_value = Gossip(parsed_json['affects_relationship'], parsed_json['response_type'], None, None, None)
+    gossip_value = parsed_json
     # else:
     #     gossip_value = Gossip(None, None, parsed_json['perpetrator'], parsed_json['action'], parsed_json['target'])
 
